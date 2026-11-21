@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Launch Radar — 40 watchlist protocols, ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="dot" aria-hidden="true"></span><span class="brand-name">LAUNCH&nbsp;RADAR</span></div>
+  <p class="meta" id="meta">Snapshot — DeFiLlama protocol index — radar-3 model</p>
+</header>
+<main>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>40 watchlist protocols, ranked by implied value</h1>
+      <p>The watchlist is the floor: every protocol with at least $50M of TVL and no token on record. The radar ranks all <span id="board-count">203</span> rankable pre-token protocols in the snapshot — the watchlist plus every other pre-token protocol below or above the floor. Implied value is a model, not a promise.</p>
+      <p class="model-line" id="model-line"></p>
+    </div>
+    <dl class="facts">
+      <div><dt>Watchlist covered</dt><dd id="fact-watch">40 / 40</dd></div>
+      <div><dt>Pre-token rows scored</dt><dd id="fact-rows">203</dd></div>
+      <div><dt>Early rows beyond the watchlist</dt><dd id="fact-early">163</dd></div>
+      <div><dt>Live-token protocols set aside</dt><dd id="fact-live">24</dd></div>
+      <div><dt>Growing over 20% in 7 days</dt><dd id="fact-surging">—</dd></div>
+      <div><dt>Median implied value</dt><dd id="fact-median">—</dd></div>
+    </dl>
+  </section>
+
+  <section class="picks" aria-label="Top five picks">
+    <h2>Top five picks</h2>
+    <div class="pick-grid" id="picks"></div>
+  </section>
+
+  <section class="controls" aria-label="Filter and sort the board">
+    <label class="field">Search
+      <input id="q" type="search" placeholder="Search name, category or chain" autocomplete="off">
+    </label>
+    <label class="field">Category
+      <select id="category"><option value="">All categories</option></select>
+    </label>
+    <label class="field">Chain
+      <select id="chain"><option value="">All chains</option></select>
+    </label>
+    <label class="field">Driver
+      <select id="driver">
+        <option value="">All drivers</option>
+        <option>Growth-led</option><option>Seasoned</option><option>Multi-chain</option><option>Scale-led</option>
+      </select>
+    </label>
+    <label class="check"><input id="watch" type="checkbox"> Watchlist only</label>
+    <div class="tabs" role="tablist" aria-label="Token status">
+      <button id="tab-pre" role="tab" aria-selected="true" class="on">Pre-token</button>
+      <button id="tab-live" role="tab" aria-selected="false">Live token</button>
+    </div>
+    <p class="shown" id="shown"></p>
+  </section>
+
+  <section class="board-wrap">
+    <h2 id="board-title">Pre-token protocols, strongest implied value first. Select a row for its model and farm plan.</h2>
+    <table class="board" id="board">
+      <thead><tr>
+        <th><button data-sort="rank" class="sort on">Rank</button></th>
+        <th>Protocol</th>
+        <th class="num"><button data-sort="tvl_usd" class="sort">TVL</button></th>
+        <th class="num"><button data-sort="change_7d" class="sort">7d</button></th>
+        <th class="num"><button data-sort="age_days" class="sort">Age</button></th>
+        <th class="num">Chains</th>
+        <th>Driver</th>
+        <th class="num"><button data-sort="implied_value_usd" class="sort">Implied value</button></th>
+        <th>Token</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+
+  <section class="model" aria-label="How the radar scores">
+    <h2>How the radar scores</h2>
+    <p class="formula">implied value = TVL × <strong>0.25</strong> × growth × maturity × reach</p>
+    <div class="model-grid">
+      <div><h3>Growth</h3><p>The seven-day change, floored at −90%. Linear to +150%, then logarithmic: +150% and +4,448% are not scored the same — the tail adds 50 points per tenfold past the cap. Weighted 0.45.</p></div>
+      <div><h3>Maturity</h3><p>0.6 plus up to 0.4 over three years of running with no token. A protocol listed yesterday scores 0.6; one running three years scores 1.0. Unknown age counts as 365 days.</p></div>
+      <div><h3>Reach</h3><p>0.03 per extra chain beyond the first, up to five. A protocol on six chains scores 1.15; a single-chain one scores 1.00.</p></div>
+      <div><h3>Driver</h3><p>Each row's tag names the factor that carries it: Growth-led when the growth multiple is at least 1.25, Seasoned when maturity is at least 0.92, Multi-chain when reach is at least 1.09, otherwise Scale-led.</p></div>
+    </div>
+    <p class="model-note">The same function scores every row — no protocol name is special-cased. The sandbox below recomputes every row live; the submitted board uses the radar-3 constants above.</p>
+    <div class="sandbox" id="sandbox">
+      <label>TVL rate <input type="range" id="sb-base" min="0.05" max="0.5" step="0.01" value="0.25"><output id="sb-base-v">0.25</output></label>
+      <label>Growth weight <input type="range" id="sb-growth" min="0" max="1" step="0.05" value="0.45"><output id="sb-growth-v">0.45</output></label>
+      <label>Maturity range <input type="range" id="sb-maturity" min="0" max="0.8" step="0.05" value="0.4"><output id="sb-maturity-v">0.40</output></label>
+      <label>Reach weight <input type="range" id="sb-reach" min="0" max="0.1" step="0.01" value="0.03"><output id="sb-reach-v">0.03</output></label>
+      <button id="sb-reset" type="button">Reset to radar-3</button>
+    </div>
+  </section>
+
+  <section class="method" aria-label="How this radar is built">
+    <h2>How this radar is built</h2>
+    <p>Every row is one protocol from the DeFiLlama protocol index as of <span id="as-of">2026-11-14</span>, with at least $5M of TVL. A row is ranked when its record carries no token (no market cap, no CoinGecko id, no symbol) and it is not a wrapped, staked or bridged product of a token that already trades, nor a versioned pool. The watchlist is the floor, not the board: the board ranks the whole rankable universe. Live-token protocols are set aside and shown with their market cap, never mixed into the ranked board.</p>
+    <p>Each farm plan is eight steps, derived from the protocol's own record: the primary and second actions from its category, the gas from its first chain, the capital from its TVL tier ($250 at $1B, $150 at $100M, $75 at $10M, $50 below), the hold from its age (60 days below 180, 45 below 365, 30 older), and a risk note specific to its category. Nothing here is a promise of an airdrop — a protocol with no token may never launch one.</p>
+  </section>
+</main>
+<footer class="foot"><p>Launch Radar v2 · radar-3 model · Snapshot <span id="foot-as-of">2026-11-14</span> · DeFiLlama protocol index · Implied value is a model, not a promise.</p></footer>
+
+<dialog id="detail" class="detail">
+  <form method="dialog"><button class="close" aria-label="Close">✕</button></form>
+  <div id="detail-body"></div>
+</dialog>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
