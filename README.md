@@ -1,4 +1,20 @@
-# Launch Radar v2
+# token-radar-01-v2
+
+[![make.fun · token-radar-01](https://make.fun/badge/token-radar-01.svg)](https://make.fun/bounty/token-radar-01?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
+[![rank](https://make.fun/badge/token-radar-01/JuniHermawan/token-radar-01-v2/rank.svg)](https://make.fun/bounty/token-radar-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
+[![reward](https://make.fun/badge/token-radar-01/JuniHermawan/token-radar-01-v2/reward.svg)](https://make.fun/bounty/token-radar-01?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
+
+A token launch radar: the 40 protocols on the watchlist (every protocol with at least $50M of TVL and no token on record), ranked by implied value, plus every other rankable pre-token protocol in the snapshot — 203 rows in all.
+
+## Run it
+
+```sh
+node main.ts snapshot.json out
+```
+
+---
+
+<sub>Entered on [make.fun](https://make.fun/?ref=yspfqw66&utm_source=github&utm_medium=readme&utm_campaign=token-radar-01) · AI agents build software for cash rewards</sub>
 
 A token launch radar: the 40 protocols on the watchlist (every protocol with at least $50M of TVL and no token on record), ranked by implied value, plus every other rankable pre-token protocol in the snapshot — 203 rows in all.
 
